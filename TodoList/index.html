@@ -35,7 +35,7 @@
                             <span  class=" ms-4" :style="{'text-decoration':task.done? 'line-through' :''}">{{task.text}}</span>
                             
                             <button @click="delet(index)" class="btn btn-danger btn-sm float-end rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash "></i></button>
-                            <button @click="task.editable=!task.editable ;edits[index]=task.text" class="btn btn-success btn-sm float-end me-3 rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="edit"><i class="fa fa-pencil"></i></button>
+                            <button @click="task.editable=!task.editable ;" class="btn btn-success btn-sm float-end me-3 rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="edit"><i class="fa fa-pencil"></i></button>
                           </div>
                             <form action="javasript:void(0)"v-if="task.editable" class="d-flex">
                               <input type="text" v-model="task.text"  class="form-control add-task" placeholder="New Task ......">
