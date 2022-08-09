@@ -13,7 +13,7 @@ the input variable is binded with form input using v-model  .
 when a click on button add() is called to push input to tasks array.
 
 a task is not editable by defautlt , it becomes editable when click on edit button , then it's replaced by a form ,
-and the new edit form is binded with task.text using v-model to make changes.
+and the new edit input form is binded with task.text using v-model to make changes.
 
 delet() function takes index of tasks and removes it using splice().
 
