@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ 
+  <script src="https://unpkg.com/vue@3"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+ <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container" id="app">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-white">
+                <div class="card-body">
+                    <form action="javascript:void(0);" class="d-flex">
+                        <input type="text" v-model="input" class="form-control add-task" placeholder="New Task......">
+                        <button type="button" class="btn btn-primary " style="transform: translateX(-40px);"
+                        @click.prevent="add"><i class="fa fa-plus"></i></button>
+                    </form>
+                    <ul class="nav nav-pills todo-nav">
+                        <li @click="all=true ;completed=false;active=false "role="presentation" class="nav-item all-task active"><a href="#" class="nav-link">All</a></li>
+                        <li @click="all=false ;completed=false ;active=true;"role="presentation" class="nav-item active-task"><a href="#" class="nav-link">Active</a></li>
+                        <li @click="all=false; active=false ;completed=true" role="presentation" class="nav-item completed-task"><a href="#" class="nav-link">Completed</a></li>
+                    </ul>
+                    <div v-if="all" class="todo-list">
+                        <div class="todo-item" v-for="task,index in tasks">
+                          <div v-if="!task.editable">
+                            <div class="checker"><span class=""><input @click="task.done=!task.done" type="checkbox"></span></div>
+                            <span  class=" ms-4" :style="{'text-decoration':task.done? 'line-through' :''}">{{task.text}}</span>
+                            
+                            <button @click="delet(index)" class="btn btn-danger btn-sm float-end rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash "></i></button>
+                            <button @click="task.editable=!task.editable ;edits[index]=task.text" class="btn btn-success btn-sm float-end me-3 rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="edit"><i class="fa fa-pencil"></i></button>
+                          </div>
+                            <form action="javasript:void(0)"v-if="task.editable" class="d-flex">
+                              <input type="text" v-model="edits[index]"  class="form-control add-task" placeholder="New Task ......">
+                              <button type="button" class="btn btn-success " style="transform: translateX(-40px);"
+                              @click.prevent="task.editable=false;edite(index)"><i class="fa fa-plus"></i></button>
+                      
+                          </form>
+                        </div>
+                    
+                    </div>
+
+                    <div v-if="active" class="todo-list">
+                      <div class="todo-item" v-for="task,index in actives">
+                        <div v-if="!task.editable">
+                          <div class="checker"><span class=""><input @click="task.done=!task.done" type="checkbox"></span></div>
+                          <span  class=" ms-4" :style="{'text-decoration':task.done? 'line-through' :''}">{{task.text}}</span>
+                          
+                          <button @click="delet(index)" class="btn btn-danger btn-sm float-end rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash "></i></button>
+                          <button @click="task.editable=!task.editable ;edits[index]=task.text" class="btn btn-success btn-sm float-end me-3 rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="edit"><i class="fa fa-pencil"></i></button>
+                        </div>
+                          <form action="javasript:void(0)"v-if="task.editable" class="d-flex">
+                            <input type="text" v-model="edits[index]"  class="form-control add-task" placeholder="New Task ......">
+                            <button type="button" class="btn btn-success " style="transform: translateX(-40px);"
+                            @click.prevent="task.editable=false;edite(index)"><i class="fa fa-plus"></i></button>
+                    
+                        </form>
+                      </div>
+                  
+                  </div>
+
+                  <div v-if="completed" class="todo-list">
+                    <div class="todo-item" v-for="task,index in completeds">
+                      <div v-if="!task.editable">
+                        <div class="checker"><span class=""><input @click="task.done=!task.done" type="checkbox"></span></div>
+                        <span  class=" ms-4" :style="{'text-decoration':task.done? 'line-through' :''}">{{task.text}}</span>
+                        
+                        <button @click="delet(index)" class="btn btn-danger btn-sm float-end rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash "></i></button>
+                        <button @click="task.editable=!task.editable ;edits[index]=task.text" class="btn btn-success btn-sm float-end me-3 rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="edit"><i class="fa fa-pencil"></i></button>
+                      </div>
+                        <form action="javasript:void(0)"v-if="task.editable" class="d-flex">
+                          <input type="text" v-model="edits[index]"  class="form-control add-task" placeholder="New Task ......">
+                          <button type="button" class="btn btn-success " style="transform: translateX(-40px);"
+                          @click.prevent="task.editable=false;edite(index)"><i class="fa fa-plus"></i></button>
+                  
+                      </form>
+                    </div>
+                
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const { createApp } = Vue
+
+createApp({
+  data() {
+    return {
+    all:true ,
+    active:false,
+    completed:false ,
+      tasks:[{text:"Hello World",done:false,editable:false}] ,
+      input:"" ,
+      edits:[]
+    }
+  },
+  methods:{
+     add:function (){
+      this.tasks.push({text:this.input,done:false,editable:false})
+      this.input=""
+     },
+     delet:function(index){
+      this.tasks.splice(index,1)
+     },
+    edite:function(index){
+       this.tasks[index]={text:this.edits[index],done:false,editable:false} 
+     
+    }},
+    computed:{
+    actives:function(){
+      return this.tasks.filter((task)=>{if(!task.done) return task})
+    },
+    completeds:function(){
+      return this.tasks.filter((task)=>{if(task.done) return task})
+    }
+  }
+}).mount('#app')
+
+
+
+
+</script>
+</body>
+
+</html>
