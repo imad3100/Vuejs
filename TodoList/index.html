@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
- 
+  <!-- CSS only -->
   <script src="https://unpkg.com/vue@3"></script>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -38,9 +38,9 @@
                             <button @click="task.editable=!task.editable ;edits[index]=task.text" class="btn btn-success btn-sm float-end me-3 rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="edit"><i class="fa fa-pencil"></i></button>
                           </div>
                             <form action="javasript:void(0)"v-if="task.editable" class="d-flex">
-                              <input type="text" v-model="edits[index]"  class="form-control add-task" placeholder="New Task ......">
+                              <input type="text" v-model="task.text"  class="form-control add-task" placeholder="New Task ......">
                               <button type="button" class="btn btn-success " style="transform: translateX(-40px);"
-                              @click.prevent="task.editable=false;edite(index)"><i class="fa fa-plus"></i></button>
+                              @click.prevent="task.editable=false;"><i class="fa fa-plus"></i></button>
                       
                           </form>
                         </div>
@@ -101,7 +101,7 @@ createApp({
     completed:false ,
       tasks:[{text:"Hello World",done:false,editable:false}] ,
       input:"" ,
-      edits:[]
+     
     }
   },
   methods:{
@@ -111,11 +111,8 @@ createApp({
      },
      delet:function(index){
       this.tasks.splice(index,1)
-     },
-    edite:function(index){
-       this.tasks[index]={text:this.edits[index],done:false,editable:false} 
-     
-    }},
+     }},
+    
     computed:{
     actives:function(){
       return this.tasks.filter((task)=>{if(!task.done) return task})
